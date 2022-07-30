@@ -4,6 +4,9 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:forca/main.dart';
 import 'package:forca/ui/colors.dart';
+import 'package:forca/utils/game.dart';
+
+import 'HomeApp.dart';
 
 class Win extends StatelessWidget {
   const Win({Key? key}) : super(key: key);
@@ -30,11 +33,14 @@ class Win extends StatelessWidget {
               ),
               child: TextButton(
                 onPressed: () {
+                  Game.letterList = [];
+                  Game.tries = 0;
+                  Game.selectChar = [];
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomeApp()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('Tentar novamente.', style: TextStyle(fontSize: 25, color: Colors.white)),
+                  child: Text('Try Again', style: TextStyle(fontSize: 25, color: Colors.white)),
                 ),
               ),
             )
