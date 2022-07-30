@@ -1,4 +1,4 @@
-package com.example.forca
+package com.example.jogo_forca
 
 import io.flutter.embedding.android.FlutterActivity
 

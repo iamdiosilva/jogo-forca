@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.forca">
+    package="com.example.jogo_forca">
    <application
-        android:label="forca"
+        android:label="jogo_forca"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

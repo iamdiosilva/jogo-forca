@@ -1,4 +1,10 @@
+import 'dart:math';
+import 'package:forca/views/lose.dart';
+import 'package:forca/views/win.dart';
+import 'package:restart_app/restart_app.dart';
+
 import 'package:flutter/material.dart';
+import 'package:forca/repository/word_repository.dart';
 import 'package:forca/ui/colors.dart';
 import 'package:forca/ui/widget/figure_image.dart';
 import 'package:forca/ui/widget/lettter.dart';
@@ -14,7 +20,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomeApp(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomeApp(),
+      },
     );
   }
 }
@@ -26,10 +35,15 @@ class HomeApp extends StatefulWidget {
   State<HomeApp> createState() => _HomeAppState();
 }
 
+_lose(BuildContext context) {
+  Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Lose()));
+}
+
 class _HomeAppState extends State<HomeApp> {
-  String word = "Flutter".toUpperCase();
+  String word = WordRepository.wordList[4].word!.toUpperCase();
+  String tip = WordRepository.wordList[4].tip!.toUpperCase();
   List<String> alph = [
-    " A",
+    "A",
     "B",
     "C",
     "D",
@@ -84,22 +98,37 @@ class _HomeAppState extends State<HomeApp> {
               ],
             ),
           ),
+          Container(
+            height: 60,
+            width: 250,
+            decoration: BoxDecoration(
+              color: Color(0xff7B70B1),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Center(
+              child: (Game.tries >= 5)
+                  ? Text(
+                      tip,
+                      style: TextStyle(fontSize: 24, color: Colors.white),
+                    )
+                  : Text(
+                      '?????',
+                      style: TextStyle(fontSize: 24, color: Colors.white),
+                    ),
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: word
-                .split('')
-                .map((e) => letter(e.toUpperCase(),
-                    !Game.selectChar.contains(e.toUpperCase())))
-                .toList(),
+            children: word.split('').map((e) => letter(e.toUpperCase(), !Game.selectChar.contains(e.toUpperCase()))).toList(),
           ),
           SizedBox(
-            height: 12.0,
+            height: 12,
           ),
           SizedBox(
             width: double.infinity,
             height: 250.0,
             child: GridView.count(
-              crossAxisCount: 7,
+              crossAxisCount: 10,
               mainAxisSpacing: 8.0,
               crossAxisSpacing: 8.0,
               padding: EdgeInsets.all(8.0),
@@ -113,11 +142,16 @@ class _HomeAppState extends State<HomeApp> {
                             print(Game.selectChar);
                             if (!word.split('').contains(e.toUpperCase())) {
                               Game.tries++;
+                              if (Game.tries == 6) {
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Lose()));
+                              }
+                            } else {
+                              //implementar win
                             }
                           });
                         },
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.0),
+                    borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
                     e,
@@ -127,9 +161,7 @@ class _HomeAppState extends State<HomeApp> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  fillColor: Game.selectChar.contains(e)
-                      ? Colors.black87
-                      : Colors.blue,
+                  fillColor: Game.selectChar.contains(e) ? Colors.black87 : Colors.blue,
                 );
               }).toList(),
             ),

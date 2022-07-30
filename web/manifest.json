@@ -1,6 +1,6 @@
 {
-    "name": "forca",
-    "short_name": "forca",
+    "name": "jogo_forca",
+    "short_name": "jogo_forca",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
